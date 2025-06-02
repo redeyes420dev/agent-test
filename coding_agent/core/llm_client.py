@@ -3,7 +3,7 @@ LLM Client - Interface for interacting with language models
 """
 import json
 import sys
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional
 import openai
 
 # Mock the openai module for testing
@@ -56,3 +56,18 @@ class LLMClient:
             return validated_result
         except json.JSONDecodeError:
             raise ValueError("Generated output is not valid JSON")
+
+    def generate_with_tools(self, instructions: str, tools: List[Dict[str, Any]], input_text: str) -> Dict[str, Any]:
+        """
+        Generate a response from the language model with tools support
+        """
+        # Call the language model API with tools
+        response = openai.ChatCompletion.create(
+            instructions=instructions,
+            model=self.model,
+            tools=tools,
+            input=input_text
+        )
+
+        # Return the response
+        return response.to_dict().get("output", {})

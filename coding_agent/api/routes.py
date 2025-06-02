@@ -1,6 +1,8 @@
 """
 API Routes - Define the API endpoints
 """
+import os
+import subprocess
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Dict, Any
@@ -14,7 +16,8 @@ from coding_agent.core.state_manager import StateManager
 app = FastAPI()
 
 # Initialize components
-llm_client = LLMClient(api_key="your-openai-api-key")
+api_key = os.getenv("OPENAI_API_KEY", "your-openai-api-key")
+llm_client = LLMClient(api_key=api_key, model="gpt-4.1")
 prompt_manager = PromptManager()
 state_manager = StateManager()
 
@@ -30,6 +33,18 @@ class CodeResponse(BaseModel):
     code: str
     documentation: str
     tests: str
+
+class IssueRequest(BaseModel):
+    description: str
+
+class IssueResponse(BaseModel):
+    solution: Dict[str, Any]
+
+class PatchRequest(BaseModel):
+    patch: str
+
+class PatchResponse(BaseModel):
+    result: str
 
 @app.post("/generate_code", response_model=CodeResponse)
 def generate_code(request: CodeRequest) -> CodeResponse:
@@ -91,4 +106,42 @@ def optimize_code(code: str) -> str:
         optimized_code = programmer_agent.optimize_code(code)
         return optimized_code
     except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/solve_issue", response_model=IssueResponse)
+def solve_issue(request: IssueRequest) -> IssueResponse:
+    """Solve an issue using the agentic workflow with tools"""
+    try:
+        # Use the agentic workflow to solve the issue
+        solution = programmer_agent.solve_issue(request.description)
+        return IssueResponse(solution=solution)
+    except Exception as e:
+        print(f"Error in solve_issue: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/apply_patch", response_model=PatchResponse)
+def apply_patch(request: PatchRequest) -> PatchResponse:
+    """Apply a patch to the codebase"""
+    try:
+        # Execute the apply_patch script with the provided patch
+        process = subprocess.Popen(
+            ["python", "coding_agent/tools/apply_patch.py"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+
+        # Send the patch to the script
+        stdout, stderr = process.communicate(request.patch)
+
+        # Check if there were any errors
+        if process.returncode != 0 or "Done!" not in stdout:
+            error_msg = f"Patch application failed: {stderr}"
+            print(error_msg)
+            raise HTTPException(status_code=500, detail=error_msg)
+
+        return PatchResponse(result="Patch applied successfully")
+    except Exception as e:
+        print(f"Error in apply_patch: {e}")
         raise HTTPException(status_code=500, detail=str(e))
