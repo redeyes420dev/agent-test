@@ -20,9 +20,9 @@ from pydantic import BaseModel, Field, ValidationError
 from loguru import logger
 from tenacity import retry, stop_after_attempt, wait_exponential, wait_random, retry_if_exception_type
 from aiohttp import ClientSession, ClientTimeout, ClientError
-from backoff import on_exception, exponential_backoff, full_jitter
+import backoff
 
-from ..config.settings import Settings
+from api_gateway import Settings
 
 class LLMProvider(str, Enum):
     """Поддерживаемые провайдеры LLM."""

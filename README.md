@@ -41,7 +41,7 @@ Coding Agent is a multi-agent system for automated code development. It consists
    ./run.sh
    ```
 
-2. Access the web interface at [http://localhost:3001](http://localhost:3001)
+2. Access the web interface at [http://localhost:3002](http://localhost:3002)
 
 ### With Docker
 

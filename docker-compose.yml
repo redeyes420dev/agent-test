@@ -1,24 +1,34 @@
 services:
-  backend:
+  api-gateway:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
-      - OPENAI_API_KEY=your-openai-api-key
+      - CODING_AGENT_OPENAI_API_KEY=sk-test-key-change-me
+      - CODING_AGENT_DEBUG=true
+      - CODING_AGENT_HOST=0.0.0.0
+      - CODING_AGENT_PORT=8000
+      - CODING_AGENT_LOG_LEVEL=INFO
+      - ENVIRONMENT=production
     volumes:
       - .:/app
+    command: ["python", "main.py"]
 
   frontend:
     build:
-      context: ./coding_agent/ui/react_app
+      context: .
       dockerfile: Dockerfile
     ports:
-      - "3001:3001"
+      - "3002:3002"
     environment:
-      - PORT=3001
+      - CODING_AGENT_OPENAI_API_KEY=sk-test-key-change-me
+      - CODING_AGENT_DEBUG=true
+      - CODING_AGENT_HOST=0.0.0.0
+      - ENVIRONMENT=production
     volumes:
-      - ./coding_agent/ui/react_app:/app
+      - .:/app
     depends_on:
-      - backend
+      - api-gateway
+    command: ["python", "-c", "from main import run_frontend; run_frontend()"]

@@ -1,16 +1,27 @@
-# run.sh
+#!/bin/bash
+# run.sh - Запуск системы Coding Agent
 
-# Start the backend
-echo "Starting backend..."
-uvicorn coding_agent.api.routes:app --host 0.0.0.0 --port 8000 &
-BACKEND_PID=$!
+echo "🚀 Запуск системы Coding Agent..."
 
-# Start the frontend
-echo "Starting frontend..."
-cd coding_agent/ui/react_app
-npm start &
-FRONTEND_PID=$!
+# Проверяем наличие Python
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Python3 не найден. Установите Python 3.10+"
+    exit 1
+fi
 
-# Wait for both processes to finish
-wait $BACKEND_PID
-wait $FRONTEND_PID
+# Проверяем виртуальное окружение
+if [[ "$VIRTUAL_ENV" == "" ]]; then
+    echo "⚠️  Рекомендуется использовать виртуальное окружение"
+    echo "   Создайте его командой: python3 -m venv .venv && source .venv/bin/activate"
+fi
+
+# Устанавливаем зависимости если нужно
+if [ ! -f ".deps_installed" ]; then
+    echo "📦 Устанавливаем зависимости..."
+    pip install -r requirements.txt
+    touch .deps_installed
+fi
+
+# Запускаем систему
+echo "🌟 Запуск основного приложения..."
+python main.py

@@ -10,7 +10,8 @@ import sys
 import secrets
 import json
 from typing import List, Optional, Dict, Any, Union, Tuple
-from pydantic import BaseSettings, Field, validator, ValidationError
+from pydantic import Field, validator, ValidationError
+from pydantic_settings import BaseSettings
 from pathlib import Path
 import yaml
 

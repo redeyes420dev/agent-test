@@ -4,17 +4,25 @@ FROM python:3.12-slim
 # Set the working directory
 WORKDIR /app
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy the requirements file
 COPY requirements.txt .
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port the app runs on
-EXPOSE 8000
+# Create workspace directory
+RUN mkdir -p /app/workspace
 
-# Command to run the application
-CMD ["uvicorn", "coding_agent.api.routes:app", "--host", "0.0.0.0", "--port", "8000"]
+# Expose the ports
+EXPOSE 8000 3002
+
+# Default command (can be overridden)
+CMD ["python", "main.py"]
