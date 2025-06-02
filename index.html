@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Агент Автоматизированной Разработки Кода</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Навигация -->
+        <nav class="navbar">
+            <div class="navbar__container">
+                <div class="navbar__brand">
+                    <span class="navbar__logo">🤖</span>
+                    <span class="navbar__title">Code Agent</span>
+                </div>
+                
+                <div class="navbar__nav">
+                    <button class="nav-link active" data-section="home">Главная</button>
+                    <button class="nav-link" data-section="generator">Генератор</button>
+                    <button class="nav-link" data-section="apikeys">API Ключи</button>
+                    <button class="nav-link" data-section="git">Git</button>
+                    <button class="nav-link" data-section="monitoring">Мониторинг</button>
+                    <button class="nav-link" data-section="settings">Настройки</button>
+                </div>
+
+                <div class="navbar__actions">
+                    <button class="theme-toggle" id="themeToggle">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Уведомления -->
+        <div id="notifications" class="notifications"></div>
+
+        <!-- Основное содержимое -->
+        <main class="main-content">
+            <!-- Главная страница -->
+            <section id="home" class="section active">
+                <div class="container">
+                    <div class="hero">
+                        <h1>Агент Автоматизированной Разработки Кода</h1>
+                        <p>Создавайте высококачественный код с помощью ИИ. Быстро, надежно, эффективно.</p>
+                        <div class="hero__actions">
+                            <button class="btn btn--primary btn--lg" data-navigate="generator">Начать генерацию</button>
+                            <button class="btn btn--outline btn--lg" data-navigate="apikeys">Настроить API</button>
+                        </div>
+                    </div>
+
+                    <div class="features">
+                        <div class="features__grid">
+                            <div class="feature-card">
+                                <div class="feature-card__icon">⚡</div>
+                                <h3>Быстрая генерация</h3>
+                                <p>Создание кода за секунды с использованием передовых AI моделей</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-card__icon">🔧</div>
+                                <h3>Множество языков</h3>
+                                <p>Поддержка Python, JavaScript, TypeScript, Java и их фреймворков</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-card__icon">🔐</div>
+                                <h3>Безопасность</h3>
+                                <p>Шифрование API ключей и защищенное хранение данных</p>
+                            </div>
+                            <div class="feature-card">
+                                <div class="feature-card__icon">📊</div>
+                                <h3>Мониторинг</h3>
+                                <p>Отслеживание использования и производительности в реальном времени</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-start">
+                        <h2>Быстрый старт</h2>
+                        <div class="steps">
+                            <div class="step">
+                                <div class="step__number">1</div>
+                                <div class="step__content">
+                                    <h4>Добавьте API ключи</h4>
+                                    <p>Настройте доступ к AI провайдерам</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step__number">2</div>
+                                <div class="step__content">
+                                    <h4>Выберите язык и фреймворк</h4>
+                                    <p>Укажите технологии для генерации</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step__number">3</div>
+                                <div class="step__content">
+                                    <h4>Опишите задачу</h4>
+                                    <p>Детально объясните что нужно создать</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step__number">4</div>
+                                <div class="step__content">
+                                    <h4>Получите готовый код</h4>
+                                    <p>Скачайте или отправьте в репозиторий</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Генератор кода -->
+            <section id="generator" class="section">
+                <div class="container">
+                    <h1>Генератор кода</h1>
+                    
+                    <div class="generator">
+                        <div class="generator__form">
+                            <div class="form-group">
+                                <label class="form-label">Язык программирования</label>
+                                <select class="form-control" id="languageSelect">
+                                    <option value="">Выберите язык</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Фреймворк</label>
+                                <select class="form-control" id="frameworkSelect" disabled>
+                                    <option value="">Сначала выберите язык</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Описание задачи</label>
+                                <textarea class="form-control" id="taskDescription" rows="5" placeholder="Детально опишите что нужно создать..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Дополнительные требования</label>
+                                <div class="requirements">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="includeTests"> Включить тесты
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="includeDocumentation"> Добавить документацию
+                                    </label>
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="includeDocker"> Создать Dockerfile
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button class="btn btn--primary btn--full-width" id="generateCode">Генерировать код</button>
+                        </div>
+
+                        <div class="generator__output">
+                            <div class="code-preview" id="codePreview">
+                                <div class="code-preview__header">
+                                    <span>Предпросмотр кода</span>
+                                    <div class="code-preview__actions">
+                                        <button class="btn btn--sm btn--outline" id="downloadCode" disabled>Скачать</button>
+                                        <button class="btn btn--sm btn--secondary" id="shareToGit" disabled>В Git</button>
+                                    </div>
+                                </div>
+                                <div class="code-preview__content">
+                                    <div class="empty-state">
+                                        <div class="empty-state__icon">📝</div>
+                                        <p>Здесь появится сгенерированный код</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sample-tasks">
+                        <h3>Примеры задач</h3>
+                        <div class="sample-tasks__grid">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Ключи -->
+            <section id="apikeys" class="section">
+                <div class="container">
+                    <div class="section-header">
+                        <h1>Управление API ключами</h1>
+                        <button class="btn btn--primary" id="addApiKey">Добавить ключ</button>
+                    </div>
+
+                    <div class="api-keys-grid" id="apiKeysGrid">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Git интеграция -->
+            <section id="git" class="section">
+                <div class="container">
+                    <h1>Git интеграция</h1>
+                    
+                    <div class="git-actions">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Клонировать репозиторий</h3>
+                                <div class="form-group">
+                                    <label class="form-label">URL репозитория</label>
+                                    <input type="text" class="form-control" id="repoUrl" placeholder="https://github.com/user/repo.git">
+                                </div>
+                                <button class="btn btn--primary" id="cloneRepo">Клонировать</button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Создать новую ветку</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Название ветки</label>
+                                    <input type="text" class="form-control" id="branchName" placeholder="feature/new-feature">
+                                </div>
+                                <button class="btn btn--primary" id="createBranch">Создать ветку</button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Создать коммит</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Сообщение коммита</label>
+                                    <input type="text" class="form-control" id="commitMessage" placeholder="Add new feature">
+                                </div>
+                                <button class="btn btn--primary" id="createCommit">Создать коммит</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="git-status">
+                        <h3>Статус Git</h3>
+                        <div class="card">
+                            <div class="card__body">
+                                <div class="git-info">
+                                    <div class="git-info__item">
+                                        <span class="git-info__label">Текущая ветка:</span>
+                                        <span class="git-info__value">main</span>
+                                    </div>
+                                    <div class="git-info__item">
+                                        <span class="git-info__label">Последний коммит:</span>
+                                        <span class="git-info__value">2 часа назад</span>
+                                    </div>
+                                    <div class="git-info__item">
+                                        <span class="git-info__label">Статус:</span>
+                                        <span class="status status--success">Чистое состояние</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Мониторинг -->
+            <section id="monitoring" class="section">
+                <div class="container">
+                    <h1>Мониторинг</h1>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-card__icon">📊</div>
+                            <div class="metric-card__content">
+                                <div class="metric-card__value" id="totalRequests">1,247</div>
+                                <div class="metric-card__label">Всего запросов</div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-card__icon">✅</div>
+                            <div class="metric-card__content">
+                                <div class="metric-card__value" id="successRate">94.2%</div>
+                                <div class="metric-card__label">Успешные запросы</div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-card__icon">⏱️</div>
+                            <div class="metric-card__content">
+                                <div class="metric-card__value" id="averageTime">15.6s</div>
+                                <div class="metric-card__label">Среднее время</div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-card__icon">💰</div>
+                            <div class="metric-card__content">
+                                <div class="metric-card__value" id="costToday">$12.45</div>
+                                <div class="metric-card__label">Расходы сегодня</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts">
+                        <div class="chart-container">
+                            <canvas id="usageChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="mcp-servers">
+                        <h3>Статус MCP серверов</h3>
+                        <div class="servers-grid" id="serversGrid">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Настройки -->
+            <section id="settings" class="section">
+                <div class="container">
+                    <h1>Настройки</h1>
+                    
+                    <div class="settings-grid">
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Конфигурация агентов</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Максимальное время ожидания (сек)</label>
+                                    <input type="number" class="form-control" id="agentTimeout" value="300">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Максимальные токены</label>
+                                    <input type="number" class="form-control" id="maxTokens" value="4000">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Температура</label>
+                                    <input type="range" class="range-control" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                                    <span class="range-value">0.7</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Системные настройки</h3>
+                                <div class="form-group">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="autoSave" checked> Автосохранение проектов
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="notifications" checked> Уведомления
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="checkbox">
+                                        <input type="checkbox" id="analytics"> Отправка аналитики
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card__body">
+                                <h3>Экспорт/Импорт</h3>
+                                <button class="btn btn--outline btn--full-width mb-8" id="exportSettings">Экспортировать настройки</button>
+                                <button class="btn btn--secondary btn--full-width" id="importSettings">Импортировать настройки</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Модальные окна -->
+        <div id="modal" class="modal">
+            <div class="modal__content">
+                <div class="modal__header">
+                    <h3 id="modalTitle">Заголовок</h3>
+                    <button class="modal__close" id="modalClose">×</button>
+                </div>
+                <div class="modal__body" id="modalBody">
+                    <!-- Контент модального окна -->
+                </div>
+                <div class="modal__footer" id="modalFooter">
+                    <!-- Кнопки модального окна -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Прогресс-бар -->
+        <div id="progressBar" class="progress-bar">
+            <div class="progress-bar__fill"></div>
+            <div class="progress-bar__text">Генерация кода...</div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

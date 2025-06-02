@@ -1,3 +1,5 @@
+# Создаем основной файл requirements.txt
+requirements = """
 # Основные зависимости
 fastapi==0.104.1
 uvicorn==0.24.0
@@ -50,3 +52,9 @@ docker==6.1.3
 
 # Мониторинг
 prometheus-client==0.19.0
+"""
+
+with open("requirements.txt", "w", encoding="utf-8") as f:
+    f.write(requirements.strip())
+
+print("✅ requirements.txt создан")

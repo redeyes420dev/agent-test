@@ -1,28 +1,47 @@
-# Use an official Python runtime as a parent image
+# Docker конфигурация для агента разработки
 FROM python:3.12-slim
 
-# Set the working directory
-WORKDIR /app
-
-# Install system dependencies
+# Установка системных зависимостей
 RUN apt-get update && apt-get install -y \
-    gcc \
+    git \
+    curl \
+    build-essential \
+    nodejs \
+    npm \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file
+# Создание рабочей директории
+WORKDIR /app
+
+# Копирование файлов зависимостей
 COPY requirements.txt .
 
-# Install Python dependencies
+# Установка Python зависимостей
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
+# Установка Node.js зависимостей для MCP серверов
+RUN npm install -g @modelcontextprotocol/server-github \
+    @modelcontextprotocol/server-docs \
+    @brightdata/mcp
+
+# Копирование исходного кода
 COPY . .
 
-# Create workspace directory
-RUN mkdir -p /app/workspace
+# Создание директорий для Git workspace и логов
+RUN mkdir -p /app/repos /app/logs
 
-# Expose the ports
-EXPOSE 8000 3002
+# Установка переменных окружения
+ENV PYTHONPATH=/app
+ENV GIT_WORKSPACE=/app/repos
+ENV LOG_LEVEL=INFO
 
-# Default command (can be overridden)
-CMD ["python", "main.py"]
+# Создание пользователя для безопасности
+RUN useradd -m -u 1000 coding_agent && \
+    chown -R coding_agent:coding_agent /app
+USER coding_agent
+
+# Открытие порта
+EXPOSE 8000
+
+# Команда запуска
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
