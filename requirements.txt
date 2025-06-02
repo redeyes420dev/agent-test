@@ -1,0 +1,9 @@
+fastapi
+openai
+pydantic
+pytest
+pylint
+flake8
+mypy
+uvicorn
+websockets

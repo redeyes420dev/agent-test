@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=your-openai-api-key
+    volumes:
+      - .:/app
+
+  frontend:
+    build:
+      context: ./coding_agent/ui/react_app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./coding_agent/ui/react_app:/app
+    depends_on:
+      - backend

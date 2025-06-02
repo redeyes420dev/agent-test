@@ -1,0 +1,3 @@
+{
+    "prompt": "Analyze the following requirements and create a technical specification:\n\n{requirements}\n\nOutput the specification in JSON format with the following structure:\n```json\n{{\n  \"title\": \"Title of the project\",\n  \"description\": \"Detailed description\",\n  \"features\": [\"Feature 1\", \"Feature 2\"],\n  \"technical_requirements\": {{\n    \"language\": \"Python\",\n    \"frameworks\": [\"FastAPI\", \"React\"],\n    \"databases\": [\"PostgreSQL\"]\n  }},\n  \"constraints\": [\"Constraint 1\", \"Constraint 2\"]\n}}\n```"
+}
