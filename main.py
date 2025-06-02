@@ -14,14 +14,14 @@ import uvicorn
 load_dotenv()
 
 # Импорт модулей проекта
-from coding_agent.api.routes import router as api_router
-from coding_agent.api.keys import router as keys_router
-from coding_agent.api.websocket import router as ws_router
+from coding_agent.api.routes import app as api_router
+from coding_agent.api.websocket import app as ws_router
 from coding_agent.core.mcp_integration import CodeAgentMcpClient
-from coding_agent.config.settings import settings
+from coding_agent.config.settings import Settings
 
 # Глобальные переменные
 mcp_client = None
+settings = Settings()
 
 
 @asynccontextmanager
@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
     global mcp_client
     try:
         # Инициализация MCP клиента
-        mcp_client = CodeAgentMcpClient(settings.dict())
+        mcp_client = CodeAgentMcpClient(settings.get_settings())
         await mcp_client.initialize_servers()
         print("🚀 MCP серверы инициализированы")
         
@@ -65,9 +65,11 @@ app.add_middleware(
 )
 
 # Подключение роутеров
-app.include_router(api_router, prefix="/api", tags=["agents"])
-app.include_router(keys_router, prefix="/api", tags=["keys"])
-app.include_router(ws_router, prefix="/ws", tags=["websocket"])
+for route in api_router.routes:
+    app.add_api_route(route.path, route.endpoint)
+
+for route in ws_router.routes:
+    app.add_api_route(route.path, route.endpoint)
 
 # Статические файлы (для React)
 if os.path.exists("frontend/build"):
@@ -97,7 +99,7 @@ async def get_status():
             name: {"connected": True, "tools": len(conn.tools) if hasattr(conn, 'tools') else 0}
             for name, conn in mcp_client.active_connections.items()
         },
-        "model": settings.openai_model
+        "model": settings.model
     }
 
 
