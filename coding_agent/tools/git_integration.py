@@ -14,7 +14,11 @@ def git_add(repo_path: str, files: List[str]) -> None:
 
 def git_commit(repo_path: str, message: str) -> None:
     """Commit changes to the Git repository"""
-    subprocess.run(["git", "commit", "-m", message], cwd=repo_path, check=True)
+    try:
+        subprocess.run(["git", "commit", "-m", message], cwd=repo_path, check=True)
+    except subprocess.CalledProcessError:
+        # No changes to commit
+        pass
 
 def git_create_branch(repo_path: str, branch_name: str) -> None:
     """Create a new Git branch"""
@@ -23,3 +27,7 @@ def git_create_branch(repo_path: str, branch_name: str) -> None:
 def git_push(repo_path: str, remote: str, branch: str) -> None:
     """Push changes to a remote repository"""
     subprocess.run(["git", "push", remote, branch], cwd=repo_path, check=True)
+
+# Aliases for backward compatibility
+init_repo = git_init
+commit_changes = git_commit

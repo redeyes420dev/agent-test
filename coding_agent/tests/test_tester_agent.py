@@ -3,9 +3,9 @@ Tests for the Tester Agent
 """
 import pytest
 from unittest.mock import MagicMock
-from agents.tester_agent import TesterAgent
-from core.llm_client import LLMClient
-from core.prompt_manager import PromptManager
+from coding_agent.agents.tester_agent import TesterAgent
+from coding_agent.core.llm_client import LLMClient
+from coding_agent.core.prompt_manager import PromptManager
 
 def test_generate_tests():
     """Test the generate_tests method"""
@@ -22,7 +22,7 @@ def test_generate_tests():
     llm_client.generate.return_value = "import pytest\ndef test_add():\n    assert add(1, 2) == 3"
 
     # Call the method
-    result = agent.generate_tests(code)
+    result = agent.generate_unit_tests(code)
 
     # Check the result
     assert "test_add" in result

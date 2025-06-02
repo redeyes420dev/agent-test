@@ -3,17 +3,21 @@ Tester Agent - Creates tests for the generated code
 """
 import json
 from typing import Dict, Any, List
-from core.llm_client import LLMClient
-from core.prompt_manager import PromptManager
+from ..core.llm_client import LLMClient
+from ..core.prompt_manager import PromptManager
 
 class TesterAgent:
     def __init__(self, llm_client: LLMClient, prompt_manager: PromptManager):
         self.llm_client = llm_client
         self.prompt_manager = prompt_manager
 
+    def generate_tests(self, code: str) -> str:
+        """Generate tests for the given code (alias for generate_unit_tests)"""
+        return self.generate_unit_tests(code)
+
     def generate_unit_tests(self, code: str, test_framework: str = "pytest") -> str:
         """Generate unit tests for the given code"""
-        prompt = self.prompt_manager.get_prompt("generate_unit_tests")
+        prompt = self.prompt_manager.get_prompt("generate_tests")
         input_data = {"code": code, "test_framework": test_framework}
         response = self.llm_client.generate(prompt, input_data)
         return response

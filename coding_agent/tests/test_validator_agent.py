@@ -3,9 +3,9 @@ Tests for the Validator Agent
 """
 import pytest
 from unittest.mock import MagicMock
-from agents.validator_agent import ValidatorAgent
-from core.llm_client import LLMClient
-from core.prompt_manager import PromptManager
+from coding_agent.agents.validator_agent import ValidatorAgent
+from coding_agent.core.llm_client import LLMClient
+from coding_agent.core.prompt_manager import PromptManager
 
 def test_static_analysis():
     """Test the static_analysis method"""

@@ -4,12 +4,12 @@ API Routes - Define the API endpoints
 from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Dict, Any
-from agents.programmer_agent import ProgrammerAgent
-from agents.tester_agent import TesterAgent
-from agents.validator_agent import ValidatorAgent
-from core.llm_client import LLMClient
-from core.prompt_manager import PromptManager
-from core.state_manager import StateManager
+from coding_agent.agents.programmer_agent import ProgrammerAgent
+from coding_agent.agents.tester_agent import TesterAgent
+from coding_agent.agents.validator_agent import ValidatorAgent
+from coding_agent.core.llm_client import LLMClient
+from coding_agent.core.prompt_manager import PromptManager
+from coding_agent.core.state_manager import StateManager
 
 app = FastAPI()
 
@@ -49,20 +49,23 @@ def generate_code(request: CodeRequest) -> CodeResponse:
 
         return CodeResponse(code=code, documentation=documentation, tests=tests)
     except Exception as e:
+        print(f"Error in generate_code: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/validate_code")
-def validate_code(code: str) -> Dict[str, Any]:
+def validate_code(code: Dict[str, Any]) -> Dict[str, Any]:
     """Validate code quality"""
     try:
+        code_str = code.get("code", "")
+
         # Perform static analysis
-        analysis = validator_agent.static_analysis(code)
+        analysis = validator_agent.static_analysis(code_str)
 
         # Check for security issues
-        security = validator_agent.security_check(code)
+        security = validator_agent.security_check(code_str)
 
         # Validate against standards
-        standards = validator_agent.validate_standards(code)
+        standards = validator_agent.validate_standards(code_str)
 
         return {
             "analysis": analysis,

@@ -4,7 +4,7 @@ Tests for the Git Integration
 import pytest
 import os
 import tempfile
-from tools.git_integration import init_repo, commit_changes
+from coding_agent.tools.git_integration import init_repo, commit_changes
 
 def test_init_repo():
     """Test the init_repo function"""

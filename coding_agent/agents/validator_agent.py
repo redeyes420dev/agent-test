@@ -3,8 +3,8 @@ Validator Agent - Validates code quality and fixes issues
 """
 import json
 from typing import Dict, Any, List
-from core.llm_client import LLMClient
-from core.prompt_manager import PromptManager
+from ..core.llm_client import LLMClient
+from ..core.prompt_manager import PromptManager
 
 class ValidatorAgent:
     def __init__(self, llm_client: LLMClient, prompt_manager: PromptManager):

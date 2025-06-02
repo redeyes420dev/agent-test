@@ -22,22 +22,40 @@ Coding Agent is a multi-agent system for automated code development. It consists
 ## Installation
 
 1. Clone the repository:
-   ```
+   ```bash
    git clone https://github.com/redeyes420dev/agent-test.git
    cd agent-test
    ```
 
 2. Install dependencies:
-   ```
+   ```bash
    ./install.sh
    ```
 
-3. Run the application:
-   ```
+## Running the Application
+
+### Without Docker
+
+1. Start the application:
+   ```bash
    ./run.sh
    ```
 
-4. Access the web interface at http://localhost:3000
+2. Access the web interface at [http://localhost:3000](http://localhost:3000)
+
+### With Docker
+
+1. Build the Docker images:
+   ```bash
+   ./build.sh
+   ```
+
+2. Start the application:
+   ```bash
+   ./run_docker.sh
+   ```
+
+3. Access the web interface at [http://localhost:8000](http://localhost:8000)
 
 ## Usage
 
@@ -92,20 +110,55 @@ The response will contain the optimized code.
 ## Running with Docker
 
 1. Build the Docker images:
-   ```
+   ```bash
    ./build.sh
    ```
 
 2. Run the Docker containers:
-   ```
+   ```bash
    ./run_docker.sh
    ```
 
-This will start both the backend and frontend containers. The backend will be available at http://localhost:8000 and the frontend at http://localhost:3000.
+This will start both the backend and frontend containers. The application will be available at [http://localhost:8000](http://localhost:8000).
+
+## Running Tests
+
+To run all tests, execute:
+```bash
+./test.sh
+```
+
+This will run both Python and React tests.
 
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.
+
+## Project Structure
+
+```
+coding_agent/
+├── agents/
+│   ├── programmer_agent.py
+│   ├── tester_agent.py
+│   └── validator_agent.py
+├── core/
+│   ├── llm_client.py
+│   ├── prompt_manager.py
+│   └── state_manager.py
+├── tools/
+│   ├── file_operations.py
+│   ├── code_executor.py
+│   └── git_integration.py
+├── api/
+│   ├── routes.py
+│   └── websocket.py
+├── ui/
+│   └── react_app/
+├── config/
+│   └── settings.py
+└── tests/
+```
 
 ## License
 

@@ -2,7 +2,7 @@
 Tests for the LLM Client
 """
 import pytest
-from core.llm_client import LLMClient
+from coding_agent.core.llm_client import LLMClient
 
 def test_generate():
     """Test the generate method"""

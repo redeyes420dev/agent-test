@@ -3,8 +3,8 @@ Programmer Agent - Generates code based on user requirements
 """
 import json
 from typing import Dict, Any
-from core.llm_client import LLMClient
-from core.prompt_manager import PromptManager
+from ..core.llm_client import LLMClient
+from ..core.prompt_manager import PromptManager
 
 class ProgrammerAgent:
     def __init__(self, llm_client: LLMClient, prompt_manager: PromptManager):

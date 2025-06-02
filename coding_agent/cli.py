@@ -2,12 +2,14 @@
 CLI interface for the Coding Agent application
 """
 import argparse
-from agents.programmer_agent import ProgrammerAgent
-from agents.tester_agent import TesterAgent
-from agents.validator_agent import ValidatorAgent
-from core.llm_client import LLMClient
-from core.prompt_manager import PromptManager
-from tools.file_operations import read_file, write_file
+
+# Use relative imports
+from .agents.programmer_agent import ProgrammerAgent
+from .agents.tester_agent import TesterAgent
+from .agents.validator_agent import ValidatorAgent
+from .core.llm_client import LLMClient
+from .core.prompt_manager import PromptManager
+from .tools.file_operations import read_file, write_file
 
 def main():
     """Run the CLI interface"""
@@ -44,7 +46,7 @@ def main():
         spec = programmer_agent.analyze_requirements(args.requirements)
         code = programmer_agent.generate_code(spec)
         documentation = programmer_agent.create_documentation(code)
-        tests = tester_agent.generate_tests(code)
+        tests = tester_agent.generate_unit_tests(code)
 
         print("Generated code:")
         print(code)

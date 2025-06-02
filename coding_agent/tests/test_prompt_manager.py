@@ -2,7 +2,7 @@
 Tests for the Prompt Manager
 """
 import pytest
-from core.prompt_manager import PromptManager
+from coding_agent.core.prompt_manager import PromptManager
 
 def test_get_prompt():
     """Test the get_prompt method"""

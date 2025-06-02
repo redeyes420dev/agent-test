@@ -3,9 +3,9 @@ Tests for the Programmer Agent
 """
 import pytest
 from unittest.mock import MagicMock
-from agents.programmer_agent import ProgrammerAgent
-from core.llm_client import LLMClient
-from core.prompt_manager import PromptManager
+from coding_agent.agents.programmer_agent import ProgrammerAgent
+from coding_agent.core.llm_client import LLMClient
+from coding_agent.core.prompt_manager import PromptManager
 
 def test_analyze_requirements():
     """Test the analyze_requirements method"""

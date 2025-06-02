@@ -4,7 +4,7 @@ Tests for the File Operations
 import pytest
 import os
 import tempfile
-from tools.file_operations import read_file, write_file
+from coding_agent.tools.file_operations import read_file, write_file
 
 def test_read_write_file():
     """Test the read_file and write_file functions"""
