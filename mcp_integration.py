@@ -2,7 +2,8 @@
 Интеграция Model Context Protocol (MCP) для агента разработки
 """
 
-from model_context_protocol import McpClient, StdioServerParameters
+from mcp.client.session import ClientSession
+from mcp.client.stdio import StdioServerParameters
 from typing import List, Dict, Any, Optional
 from contextlib import AsyncExitStack
 import asyncio
