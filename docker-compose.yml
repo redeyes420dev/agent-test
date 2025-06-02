@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build:
@@ -17,7 +15,9 @@ services:
       context: ./coding_agent/ui/react_app
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3001"
+    environment:
+      - PORT=3001
     volumes:
       - ./coding_agent/ui/react_app:/app
     depends_on:

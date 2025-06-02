@@ -59,7 +59,7 @@ cp .env.example .env        # OPENAI_API_KEY, ENCRYPTION_KEY, ...
 docker-compose up -d
 
 # 4. UI
-open http://localhost:3000  # Dashboard, API-keys, Git-manager
+open http://localhost:3001  # Dashboard, API-keys, Git-manager
 ```
 
 ## Разработка

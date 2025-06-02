@@ -13,11 +13,11 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
-# Build the application
-RUN npm run build
+# Add node_modules/.bin to PATH
+ENV PATH="/app/node_modules/.bin:${PATH}"
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 3001
 
 # Command to run the application
 CMD ["npm", "start"]
